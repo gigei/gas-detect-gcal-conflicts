@@ -1,3 +1,5 @@
+// Copyright (C) 2012 Nihon Gigei, Inc. <http://rakumo.gigei.jp/>
+
 var Config = function() {
 	this.DOMAIN = ScriptProperties.getProperty('DOMAIN');
 	this.MAX_DATE = ScriptProperties.getProperty('MAX_DATE');
