@@ -11,9 +11,9 @@ Google Apps for Business
 Install
 -------
 1. Create new GoogleSpreadSheets
-2. Replace the sample code with script.js
-3. call 'settings'
-4. call 'getResource'
+2. Replace the sample code with code.js
+3. Call 'settings'
+4. Call 'getResource'
 3. Set triggers for 'checkEvent'
 
 For more detail, see install_manual_ja.pdf (Japanese)
