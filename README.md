@@ -20,4 +20,5 @@ For more detail, see install_manual_ja.pdf (Japanese)
 
 Lisence
 -------
-MIT: http://rem.mit-license.org
+MIT: http://rem.mit-license.org  
+Copyright (c) 2012 [Nihon Gigei, Inc]<http://rakumo.gigei.jp>
