@@ -1,4 +1,6 @@
+
 // Copyright (C) 2012 Nihon Gigei, Inc. <http://rakumo.gigei.jp/>
+// Licensed under the terms of the MIT License
 
 var Config = function() {
 	this.DOMAIN = ScriptProperties.getProperty('DOMAIN');
