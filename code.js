@@ -273,25 +273,38 @@ ClassCalendar.prototype = {
 			result,
 			feed;
 		try {
-			result = UrlFetchApp.fetch(url, fetchArgs).getContentText(),
-			Logger.log('---Throwable');
+			var response = UrlFetchApp.fetch(url, fetchArgs),
+			responseCode = response.getResponseCode();
+		} catch (e) {
+			Logger.log(e);
+			return;
+		}
+
+		if (responseCode == 200) {
+			result = response.getContentText();
 			feed = Utilities.jsonParse(result);
 			Logger.log('---' + feed.data.title);
-		} catch (e) {
-			var serverResponse = e.toString().split('<HTML>');
-			if (serverResponse.length != 2) return;
+		} else if (responseCode == 302) {
+			var serverResponse = response.getContentText().split('<HTML>');
+			if (serverResponse.length != 2) {
+				return;
+			}
+			Logger.log('--- Follow redirect');
 
 			var xml = Xml.parse('<HTML>' + serverResponse[1]);
+			result = UrlFetchApp.fetch(xml.HTML.BODY.A.HREF, fetchArgs).getContentText();
 
-			result = UrlFetchApp.fetch(xml.HTML.BODY.A.HREF, fetchArgs).getContentText(),
-			Logger.log('---Exception');
-			Logger.log('---URL:' + xml.HTML.BODY.A.HREF);
 			feed = Utilities.jsonParse(result);
 			Logger.log('---' + feed.data.title);
 
 			var g_session_id = xml.HTML.BODY.A.HREF.split('gsessionid=')[1];
 			ScriptProperties.setProperty('g_session_id', g_session_id);
+
+		} else {
+			Logger.log('Error:');
+			Logger.log(response);
 		}
+
 		if (!feed) return null;
 		this.name = feed.data.title;
 		if (!feed.data.items) return null;
@@ -301,7 +314,8 @@ ClassCalendar.prototype = {
 
 	getFetchArgs: function(method, name) {
 		return {
-			method: method,
+            method: method,
+            muteHttpExceptions: true,
 			headers: {'GData-Version': '2'},
 			oAuthServiceName:name,
 			oAuthUseToken:'always'
